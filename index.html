@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Oswald:wght@400;700&family=Sedgwick+Ave+Display&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #clock {
+        height: 100vh;
+        width: 100vw;
+        background-image: url(./imgs/clock-or-stopwatch-design-free-vector.jpg);
+        background-size: 100% 130%;
+        background-position: 0 -100px;
+        color: white;
+    }
+
+    #container {
+        height: 50vh;
+        width: 25vw;
+        position: relative;
+        top: 35vh;
+        left: 5vw;
+        text-align: center;
+    }
+
+    #heading {
+        font-size: 65px;
+    }
+
+    #buttons {
+        height: 30vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: space-evenly;
+        width: 70%;
+        font-family: dancing script;
+        margin: 0 auto;
+        position: relative;
+        top: 5vh;
+    }
+
+    button {
+        font-size: 25px;
+        height: 65px;
+        font-size: 30px;
+        cursor: pointer;
+        font-family: dancing script;
+        font-weight: bolder;
+        transition-duration: 1s;
+        border-radius: 15px 0 15px;
+        border: 4px solid #3f76cf;
+        background-color: transparent;
+        color: white;
+    }
+
+    button:hover {
+        color: #3f76cf;
+        font-size: 25px;
+        transition-duration: 1s;
+        border: none;
+        box-shadow: #3f76cf 0px 20px 30px -10px;
+    }
+
+    /* ================================================================= */
+
+    @media screen and (min-width:280px) and (max-width:620px) {
+        #heading {
+            font-size: 25px !important;
+        }
+
+        #container {
+            text-align: center !important;
+            width: 40vw !important;
+        }
+
+        #buttons {
+            width: 100% !important;
+        }
+
+        body {
+            background-size: 100% 100%;
+            background-position: 0px 0px;
+        }
+    }
+
+    /* ================================================================= */
+
+    @media screen and (min-width:620px) and (max-width:768px) {
+        #container {
+            text-align: center !important;
+            width: 40vw !important;
+        }
+
+        #buttons {
+            width: 70% !important;
+        }
+
+        #heading {
+            font-size: 45px !important;
+        }
+    }
+
+</style>
+
+<body>
+    <section id="clock">
+        <div id="container">
+            <div id="stopwatch">
+                <h1 id="heading">00:00:00:00</h1>
+            </div>
+            <div id="buttons">
+                <button onclick="watchStart()">Start</button>
+                <button onclick="watchStop()">Stop</button>
+                <button onclick="watchReset()">Reset</button>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script>
+    let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+    let heading = document.getElementById('heading');
+    let timer = null;
+
+    function stopwatch() {
+        milliseconds++;
+        if (milliseconds == '100') {
+            milliseconds = 0;
+            seconds++;
+            if (seconds == '60') {
+                seconds = 0;
+                minutes++;
+                if (minutes == '60') {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+        }
+
+        let hour = hours < 10 ? "0" + hours : hours;
+        let min = minutes < 10 ? "0" + minutes : minutes;
+        let sec = seconds < 10 ? "0" + seconds : seconds;
+        let msec = milliseconds < 10 ? "0" + milliseconds : milliseconds;
+
+        heading.innerHTML = hour + ":" + min + ":" + sec + ":" + msec;
+    }
+    function watchStart() {
+        if (timer !== null) {
+            clearInterval(timer);
+        }
+        timer = setInterval(stopwatch, 10)
+    }
+    function watchStop() {
+        clearInterval(timer)
+    }
+    function watchReset() {
+        clearInterval(timer);
+        [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+        heading.innerHTML = "00:00:00:00";
+    }
+</script>
+
+</html>
